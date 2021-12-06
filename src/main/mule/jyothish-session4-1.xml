@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="849040ab-769f-4795-9929-e4cd7fbdea9c" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="885e7c31-7c21-44f9-abc2-244232fa24f8" />
+	<flow name="jyothish-session4-1Flow" doc:id="0b3771ee-b5a5-4f35-8ecb-d0a8eb660fec" >
+		<http:listener doc:name="Listener" doc:id="a5eca779-1df7-4946-b40a-82342b9fe3a0" config-ref="HTTP_Listener_config" path="/test"/>
+		<logger level="INFO" doc:name="Logger" doc:id="a78364e7-6c36-41a3-80a2-80e0c17e3d1e" message="Before variables"/>
+		<ee:transform doc:name="Transform Message" doc:id="878fd2fd-5beb-4549-b1fe-49e9c35dfb34" >
+			<ee:message >
+				<ee:set-payload ><![CDATA["Transfer message success"]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="name" ><![CDATA[attributes.queryParams.name]]></ee:set-variable>
+				<ee:set-variable variableName="method" ><![CDATA[attributes.method]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="c5468f0f-d470-4f22-b21c-b511290145f6" message='#["Completed"]'/>
+	</flow>
+	<flow name="jyothish-session4-1privateFlow" doc:id="e9f834c6-29ce-4b51-88cf-375d4adbcb63" >
+		<set-payload value='#["This is private flow payload"]' doc:name="PrivateFlowPayload" doc:id="5fe38a6f-479f-4a75-a3d8-c94a5f89f991" />
+	</flow>
+	<sub-flow name="jyothish-session4-1Sub_Flow" doc:id="76295841-0aad-4a02-8cbe-810f4d069c5e" >
+		<set-payload value='#["This is sub flow payload"]' doc:name="subflow Payload" doc:id="344842e2-dc51-45da-bddb-257f6a75ddb4" />
+	</sub-flow>
+</mule>
